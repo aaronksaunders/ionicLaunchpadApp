@@ -1,3 +1,18 @@
-page-home {
-
+ .container {
+    background-color: darkBlue
 }
+
+.heading {
+    font-size:  40px;
+    font-weight: bolder;
+    color: white;
+    letter-spacing: .2em;
+    text-align: center;
+    padding: 20px
+  }
+
+  .listText {
+    font-size: 28px;
+    color: white;
+    letter-spacing: .2em
+  }

@@ -6,9 +6,9 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+<ion-content padding class="container">
+  <div class="heading">1 {{currentCurrency}}</div>
+  <ion-item *ngFor="let item of rates" (click)="onCurrencyChange(item.currency)" style="background-color: transparent">
+    <div class="listText">{{item.currency}}&nbsp;{{item.rate}}</div>
+  </ion-item>
 </ion-content>
