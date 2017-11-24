@@ -1,6 +1,6 @@
 
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, LoadingController } from 'ionic-angular';
 
 // APOLLO
 import { Apollo } from 'apollo-angular';
@@ -13,7 +13,10 @@ import gql from "graphql-tag";
 export class HomePage {
   rates
   currentCurrency = "USD"
-  constructor(public navCtrl: NavController, private apollo:Apollo) {
+  constructor(
+    public navCtrl: NavController, 
+    private apollo: Apollo,
+    public loadingCtrl: LoadingController) {
 
   }
 
@@ -28,23 +31,37 @@ export class HomePage {
    * @param {string} [currentCurrency="USD"] 
    * @memberof HomePage
    */
-  doQuery(currentCurrency : string = "USD") {
+  doQuery(currentCurrency: string = "USD") {
+
+    // show loading...
+    let loadingDialog = this.loadingCtrl.create({
+      content: 'Please wait...'
+    });
+    
+    loadingDialog.present();
+  
     this.apollo.watchQuery<any>({
       query: ExchangeRateQuery,
       variables: { "currency": currentCurrency }
     })
       .valueChanges
-      .subscribe(({data}) => {
-        console.log(data.rates)
-        let allRates = data.rates.rates
+      .subscribe(({ data, loading, errors }) => {
+        console.log(data)
+        if (loading) {
+          console.log("loading...")
+        } else {
+          
+          let allRates = data.rates.rates
 
-        let result =  allRates.filter(
-          ({ currency }) =>
-            currency !== currentCurrency &&
-            (["USD", "BTC", "LTC", "EUR", "JPY", "ETH"].indexOf(currency) !== -1)
-        )
+          let result = allRates.filter(
+            ({ currency }) =>
+              currency !== currentCurrency &&
+              (["USD", "BTC", "LTC", "EUR", "JPY", "ETH"].indexOf(currency) !== -1)
+          )
 
-        this.rates = result
+          loadingDialog.dismiss();
+          this.rates = result
+        }
       });
   }
 
