@@ -14,7 +14,7 @@ export class HomePage {
   rates
   currentCurrency = "USD"
   constructor(
-    public navCtrl: NavController, 
+    public navCtrl: NavController,
     private apollo: Apollo,
     public loadingCtrl: LoadingController) {
 
@@ -37,9 +37,9 @@ export class HomePage {
     let loadingDialog = this.loadingCtrl.create({
       content: 'Please wait...'
     });
-    
+
     loadingDialog.present();
-  
+
     this.apollo.watchQuery<any>({
       query: ExchangeRateQuery,
       variables: { "currency": currentCurrency }
@@ -50,7 +50,7 @@ export class HomePage {
         if (loading) {
           console.log("loading...")
         } else {
-          
+
           let allRates = data.rates.rates
 
           let result = allRates.filter(
