@@ -20,6 +20,12 @@ export class HomePage {
 
   }
 
+  /**
+   * 
+   * 
+   * @param {any} _value 
+   * @memberof HomePage
+   */
   onCurrencyChange(_value) {
     this.currentCurrency = _value;
     this.doQuery(this.currentCurrency)
@@ -76,13 +82,13 @@ export class HomePage {
 
 
 const ExchangeRateQuery = gql`
-query rates($currency: String!) {
-  rates(currency: $currency) {
-    currency
-    rates {
+  query rates($currency: String!) {
+    rates(currency: $currency) {
       currency
-      rate
+      rates {
+        currency
+        rate
+      }
     }
   }
-}
 `;
