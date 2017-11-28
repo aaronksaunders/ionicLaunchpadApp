@@ -1,6 +1,8 @@
 
 import { Component } from '@angular/core';
 import { NavController, LoadingController } from 'ionic-angular';
+import { trigger, transition, style, animate, query, stagger } from '@angular/animations';
+
 
 // APOLLO
 import { Apollo } from 'apollo-angular';
@@ -8,10 +10,27 @@ import gql from "graphql-tag";
 
 @Component({
   selector: 'page-home',
-  templateUrl: 'home.html'
+  templateUrl: 'home.html',
+  animations: [
+    trigger('listAnimation', [
+      transition('* => *', [ // each time the binding value changes
+        query(':leave', [
+          stagger(100, [
+            animate('0.5s', style({ opacity: 0 }))
+          ])
+        ], { optional: true }),
+        query(':enter', [
+          style({ opacity: 0 }),
+          stagger(100, [
+            animate('0.5s', style({ opacity: 1 }))
+          ])
+        ], { optional: true })
+      ])
+    ])
+  ],
 })
 export class HomePage {
-  rates
+  rates = []
   currentCurrency = "USD"
   constructor(
     public navCtrl: NavController,
@@ -38,6 +57,8 @@ export class HomePage {
    * @memberof HomePage
    */
   doQuery(currentCurrency: string = "USD") {
+
+    this.rates = []
 
     // show loading...
     let loadingDialog = this.loadingCtrl.create({

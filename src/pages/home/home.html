@@ -8,7 +8,9 @@
 
 <ion-content padding class="container">
   <div class="heading">1 {{currentCurrency}}</div>
-  <ion-item *ngFor="let item of rates" (click)="onCurrencyChange(item.currency)" style="background-color: transparent">
-    <div class="listText">{{item.currency}}&nbsp;{{item.rate}}</div>
-  </ion-item>
+  <div [@listAnimation]="rates.length">
+    <ion-item *ngFor="let item of rates" (click)="onCurrencyChange(item.currency)" style="background-color: transparent">
+      <div class="listText">{{item.currency}}&nbsp;{{item.rate}}</div>
+    </ion-item>
+  </div>
 </ion-content>
